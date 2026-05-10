@@ -6,67 +6,22 @@
 <title>kyphan38</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<style> 
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.14);
-    --text-primary: #f0ede8;
-    --text-secondary: rgba(240,237,232,0.45);
-    --text-muted: rgba(240,237,232,0.25);
-    --accent: #3d6bff;
-    --accent-dim: rgba(61,107,255,0.12);
-    --accent-glow: rgba(61,107,255,0.25);
-    --font-display: 'Syne', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-  }
-
-  html { scroll-behavior: smooth; }
-
   body {
-    background: var(--bg);
-    color: var(--text-primary);
-    font-family: var(--font-display);
+    background: #fff;
+    color: #111;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
   }
 
-  /* subtle grid bg */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* accent orb */
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px;
-    right: -150px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(61,107,255,0.13) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    max-width: 680px;
+  .page {
+    max-width: 580px;
     margin: 0 auto;
     padding: 0 32px;
     flex: 1;
@@ -74,373 +29,127 @@
     flex-direction: column;
   }
 
-  /* ── header ── */
-  header {
-    padding: 52px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .site-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent-glow);
-    animation: pulse 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── hero ── */
   .hero {
-    padding: 72px 0 64px;
-    animation: fadeUp 0.7s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .hero-label::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.7;
+    padding: 72px 0 52px;
   }
 
   h1 {
-    font-family: var(--font-display);
-    font-size: clamp(42px, 7vw, 64px);
-    font-weight: 800;
-    line-height: 1.08;
+    font-size: clamp(32px, 5vw, 44px);
+    font-weight: 400;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    color: var(--text-primary);
-    margin-bottom: 24px;
+    color: #111;
   }
 
-  h1 em {
-    font-style: normal;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(240,237,232,0.3);
-  }
-
-  .hero-desc {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--text-secondary);
-    max-width: 440px;
-  }
-
-  /* ── section label ── */
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── tool list ── */
   .tools {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    animation: fadeUp 0.7s 0.15s ease both;
+    flex: 1;
+    list-style: none;
   }
 
-  .tool-item {
+  .tool-row {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 20px 22px;
-    border-radius: 10px;
-    border: 1px solid transparent;
+    padding: 18px 0;
+    border-top: 1px solid #ebebeb;
     text-decoration: none;
     color: inherit;
-    transition: background 0.2s, border-color 0.2s;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
+    gap: 12px;
   }
 
-  .tool-item::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--accent);
-    transform: scaleY(0);
-    transform-origin: center;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    border-radius: 0 2px 2px 0;
-  }
-
-  .tool-item:hover {
-    background: var(--surface);
-    border-color: var(--border-hover);
-  }
-
-  .tool-item:hover::before {
-    transform: scaleY(1);
-  }
-
-  .tool-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    transition: box-shadow 0.2s;
-  }
-
-  .tool-item:hover .tool-dot {
-    box-shadow: 0 0 10px currentColor;
-  }
-
-  .dot-green  { background: #34d399; color: #34d399; }
-  .dot-blue   { background: #3d6bff; color: #3d6bff; }
-  .dot-purple { background: #a78bfa; color: #a78bfa; }
-  .dot-amber  { background: #fbbf24; color: #fbbf24; }
-
-  .tool-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .tool-name-row {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 3px;
+  .tool-row:last-child {
+    border-bottom: 1px solid #ebebeb;
   }
 
   .tool-name {
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 500;
+    color: #111;
+    width: 52px;
+    flex-shrink: 0;
   }
 
   .tool-url {
-    font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 300;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-  }
-
-  .tool-desc {
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    font-weight: 300;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #aaa;
+    flex: 1;
   }
 
   .tool-arrow {
-    color: var(--text-muted);
-    font-size: 16px;
-    transition: transform 0.2s, color 0.2s;
-    flex-shrink: 0;
+    color: #ccc;
+    font-size: 15px;
+    transition: color 0.15s, transform 0.15s;
   }
 
-  .tool-item:hover .tool-arrow {
-    transform: translateX(3px);
-    color: var(--accent);
+  .tool-row:hover .tool-arrow {
+    color: #888;
+    transform: translateX(2px);
   }
 
-  /* ── divider ── */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 48px 0;
-  }
-
-  /* ── footer ── */
   footer {
-    padding: 0 0 40px;
+    padding: 36px 0 40px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    animation: fadeUp 0.7s 0.25s ease both;
+    align-items: center;
   }
 
-  .footer-left {
-    font-family: var(--font-mono);
-    font-size: 11px;
+  .footer-text {
+    font-size: 12px;
     font-weight: 300;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-  }
-
-  .footer-left span {
-    color: var(--text-secondary);
-  }
-
-  .footer-right {
-    display: flex;
-    gap: 20px;
+    color: #ccc;
   }
 
   .footer-link {
-    font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 300;
-    color: var(--text-muted);
+    color: #ccc;
     text-decoration: none;
-    letter-spacing: 0.06em;
-    transition: color 0.15s;
   }
 
-  .footer-link:hover { color: var(--text-primary); }
-
-  /* ── accent badge on hover ── */
-  .tool-tag {
-    display: none;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 20px;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-  }
-
-  .tool-item:hover .tool-tag {
-    display: inline-block;
-    opacity: 1;
-  }
-
-  @media (max-width: 480px) {
-    .wrapper { padding: 0 20px; }
-    h1 { font-size: 36px; }
-    .tool-desc { display: none; }
-  }
+  .footer-link:hover { color: #888; }
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="page">
 
-  <header>
-    <span class="site-tag">kyphan38.com</span>
-    <span class="status-dot" title="All systems online"></span>
-  </header>
+  <div class="hero">
+    <h1>Personal<br>workspace</h1>
+  </div>
 
-  <section class="hero">
-    <div class="hero-label">Personal workspace</div>
-    <h1>Tools built<br>for <em>one.</em></h1>
-    <p class="hero-desc">A focused set of apps for thinking, learning, and deciding - each one sharp enough to use daily.</p>
-  </section>
-
-  <div class="section-label">Tools</div>
-
-  <nav class="tools">
-
-    <a class="tool-item" href="https://mesi.kyphan38.com" target="_blank" rel="noopener">
-      <span class="tool-dot dot-amber"></span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Mesi</span>
-          <span class="tool-url">mesi.kyphan38.com</span>
-        </div>
-        <div class="tool-desc">AI meal planning - smart menus, nutrition, and grocery lists</div>
-      </div>
-      <span class="tool-tag">AI</span>
-      <svg class="tool-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-
-    <a class="tool-item" href="https://noda.kyphan38.com" target="_blank" rel="noopener">
-      <span class="tool-dot dot-green"></span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Noda</span>
-          <span class="tool-url">noda.kyphan38.com</span>
-        </div>
-        <div class="tool-desc">Language learning - dictation, listening, shadowing, and flashcards</div>
-      </div>
-      <span class="tool-tag">Static</span>
-      <svg class="tool-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-
-    <a class="tool-item" href="https://cogi.kyphan38.com" target="_blank" rel="noopener">
-      <span class="tool-dot dot-blue"></span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Cogi</span>
-          <span class="tool-url">cogi.kyphan38.com</span>
-        </div>
-        <div class="tool-desc">AI-driven exercises, knowledge dashboards, and Firebase-backed progress</div>
-      </div>
-      <span class="tool-tag">AI</span>
-      <svg class="tool-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-
-    <a class="tool-item" href="https://arca.kyphan38.com" target="_blank" rel="noopener">
-      <span class="tool-dot dot-purple"></span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Arca</span>
-          <span class="tool-url">arca.kyphan38.com</span>
-        </div>
-        <div class="tool-desc">Docs site - searchable references, guides, and thinking frameworks</div>
-      </div>
-      <span class="tool-tag">Docs</span>
-      <svg class="tool-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-    </a>
-
-  </nav>
-
-  <div class="divider"></div>
+  <ul class="tools">
+    <li>
+      <a class="tool-row" href="https://mesi.kyphan38.com" target="_blank" rel="noopener">
+        <span class="tool-name">Mesi</span>
+        <span class="tool-url">mesi.kyphan38.com</span>
+        <span class="tool-arrow">→</span>
+      </a>
+    </li>
+    <li>
+      <a class="tool-row" href="https://noda.kyphan38.com" target="_blank" rel="noopener">
+        <span class="tool-name">Noda</span>
+        <span class="tool-url">noda.kyphan38.com</span>
+        <span class="tool-arrow">→</span>
+      </a>
+    </li>
+    <li>
+      <a class="tool-row" href="https://cogi.kyphan38.com" target="_blank" rel="noopener">
+        <span class="tool-name">Cogi</span>
+        <span class="tool-url">cogi.kyphan38.com</span>
+        <span class="tool-arrow">→</span>
+      </a>
+    </li>
+    <li>
+      <a class="tool-row" href="https://arca.kyphan38.com" target="_blank" rel="noopener">
+        <span class="tool-name">Arca</span>
+        <span class="tool-url">arca.kyphan38.com</span>
+        <span class="tool-arrow">→</span>
+      </a>
+    </li>
+  </ul>
 
   <footer>
-    <div class="footer-left"><span>kyphan38</span> · built for one</div>
-    <div class="footer-right">
-      <a class="footer-link" href="https://github.com/kyphan38" target="_blank" rel="noopener">github</a>
-    </div>
+    <span class="footer-text">kyphan38 · built for one</span>
+    <a class="footer-link" href="https://github.com/kyphan38" target="_blank" rel="noopener">github</a>
   </footer>
 
 </div>
