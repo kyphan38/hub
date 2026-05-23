@@ -1,0 +1,122 @@
+---
+description: Git commit message format for hub
+alwaysApply: true
+---
+
+# Git Commit Format (hub)
+
+Every commit in this repository must follow this strict, professional Conventional Commits convention. The git root is `hub/`. You **MUST** run `git` commands from this repository's root, not the workspace.
+
+---
+
+## 1. Structure
+
+Every commit message consists of a **Subject Line**, a **Detailed Body** (required for non-trivial changes), and an **Optional Footer**.
+
+```
+<type>(<scope>): <summary>
+
+[Detailed Body]
+- **Context / Why**: Rationale for the change, the problem solved, or business/content requirements.
+- **Key Changes**:
+  - Detailed list of specific technical additions, refactorings, or landing page structural updates.
+- **Verification**: How the change was tested and verified to ensure correctness.
+
+[Optional Footer]
+Refs: #issue_id / Breaking Change details
+```
+
+### 1.1 Subject Line
+- **Type**: Must be one of the pre-defined commit types (see below).
+- **Scope**: Must refer to a specific component or module (see below). Omit only for repo-wide configuration changes.
+- **Summary**: Concise, written in the **imperative, present-tense mood** (e.g., "add", not "added" or "adds"), fully lowercased, with no trailing period, and strictly **≤ 72 characters**.
+
+### 1.2 Detailed Body (Highly Encouraged)
+Required for any complex, non-obvious fixes, new features, or breaking changes. It must separate from the subject line by a blank line and use the structured three-part breakdown:
+- **Context / Why**: Background context explaining the business or user experience reason for the change.
+- **Key Changes**: Precise bullet points describing the exact technical or content implementation.
+- **Verification**: How the changes were verified (e.g., responsive check, local preview verification).
+
+---
+
+## 2. Subject Line Components
+
+### 2.1 Approved Types
+
+| Type | Intent & Usage | Production Code Impact |
+|:---|:---|:---:|
+| `feat` | A new feature or user-visible capability (e.g., landing page sections) | **Yes** |
+| `fix` | A bug fix or regression repair (e.g., broken links, mobile viewport issues) | **Yes** |
+| `refactor` | Restructuring existing code/HTML structure without changing external behavior | **No** |
+| `perf` | Measurable performance improvement | **Yes** |
+| `test` | Adding, refactoring, or correcting test suites only | **No** |
+| `docs` | Documentation updates (e.g., README) | **No** |
+| `style` | Formatting, linting, CSS/indentation alignments (no logic changes) | **No** |
+| `chore` | Build tools, dependency bumps, configuration, directory housekeeping | **No** |
+| `build` | Changes affecting build processes or global assets bundling | **No** |
+| `ci` | Changes to integration pipelines, action runner scripts, workflows | **No** |
+
+### 2.2 Allowed Scopes for hub
+
+`ui`, `content`
+
+> [!NOTE]
+> Never use the repository name `hub` as a scope. The scope must identify the specific area *within* the repository.
+
+---
+
+## 3. Developer & Agent Checklist
+
+Before creating a commit:
+1. **One Logical Change per Commit**: Split unrelated edits into independent commits.
+2. **Subject Describes Outcome**: Focus on the action/outcome (e.g., `feat(ui): add project links section to landing page`), not the specific file name (e.g., `update index.html`).
+3. **Never Use Vague Placeholders**: Never commit with messages like `feat: fix features`, `wip`, `updates`, `misc`, or `more fixes`.
+4. **Run Git in Repo Root**: Ensure you are in the `/Users/kyphan/ws/app/hub` directory before executing git commands.
+5. **No Credentials or Temp Files**: Do not stage or commit local debug logs or temporary workspace files.
+6. **No Authorship Tags**: Never add author or co-author metadata (such as `Co-authored-by:`) to the commit message. Git tracks authorship automatically.
+
+---
+
+## 4. Professional Examples
+
+### Example 1: New UI Feature
+```markdown
+feat(ui): add project links section to landing page
+
+- **Context / Why**: Users landing on the hub need a clear, professional way to discover and navigate to other sub-applications (cogi, noda, mesi).
+- **Key Changes**:
+  - Structured a new clean card component displaying active workspace modules.
+  - Linked active card components to their respective relative project subpaths.
+- **Verification**:
+  - Manually verified card layouts are responsive across mobile, tablet, and desktop viewports.
+```
+
+### Example 2: Content correction
+```markdown
+fix(content): correct repo URLs in project description section
+
+- **Context / Why**: Several links pointing to repository source code in the main landing descriptions were outdated or broken.
+- **Key Changes**:
+  - Updated anchor link paths to match correct current project paths.
+- **Verification**:
+  - Clicked and verified all landing page links load successfully in local preview.
+```
+
+---
+
+## 5. Commit Command (For Agents)
+
+Always commit using the multi-line Heredoc format to handle the detailed body correctly:
+
+```bash
+git commit -m "$(cat <<'EOF'
+feat(ui): add navigation links section
+
+- **Context / Why**: Navigation to documentation and external resources is missing from the footer.
+- **Key Changes**:
+  - Added modern flexbox links section at the page bottom.
+- **Verification**:
+  - Verified hover effects and rendering in Chrome.
+EOF
+)"
+```
