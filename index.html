@@ -286,12 +286,13 @@
   .row:hover .g-arca line:nth-child(2) { transform: translateX(-3px); }
   .row:hover .g-arca line:nth-child(3) { transform: translateX(4px); }
 
-  .g-cogi .spark, .g-cogi .spark-sm { transform-box: fill-box; transform-origin: center; }
-  .row:hover .g-cogi .spark { animation: twinkle 1.7s var(--ease) infinite; }
-  .row:hover .g-cogi .spark-sm { animation: twinkle 1.7s var(--ease) 0.28s infinite; }
-  @keyframes twinkle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50%      { transform: scale(1.2) rotate(18deg); }
+  /* the two options are weighed in turn */
+  .g-cogi .leaf { transform-box: fill-box; transform-origin: center; }
+  .row:hover .g-cogi .leaf { animation: weigh 2s var(--ease) infinite; }
+  .row:hover .g-cogi .leaf:last-of-type { animation-delay: 1s; }
+  @keyframes weigh {
+    0%, 45%, 100% { transform: scale(1); opacity: 0.55; }
+    18%           { transform: scale(1.35); opacity: 1; }
   }
 
   .g-logi line { transform-box: fill-box; transform-origin: center; }
@@ -423,13 +424,16 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#7c3aed; --i:1">
+      <li class="item" style="--accent:#475569; --i:1">
         <a class="row" href="https://cogi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">02</span>
           <span class="glyph" aria-hidden="true">
             <svg class="g-cogi" viewBox="0 0 24 24">
-              <path class="spark" d="M12 3.4c1.15 5.55 3.9 8.3 9.45 9.45-5.55 1.15-8.3 3.9-9.45 9.45-1.15-5.55-3.9-8.3-9.45-9.45C8.1 11.7 10.85 8.95 12 3.4z" fill="currentColor" stroke="none"/>
-              <circle class="spark-sm" cx="19.4" cy="4.9" r="1.5" fill="currentColor" stroke="none"/>
+              <path d="M12 8.2v3.3"/>
+              <path d="M6.5 15V11.5h11V15"/>
+              <circle cx="12" cy="6" r="2" fill="currentColor" stroke="none"/>
+              <circle class="leaf" cx="6.5" cy="17" r="2" fill="currentColor" stroke="none"/>
+              <circle class="leaf" cx="17.5" cy="17" r="2" fill="currentColor" stroke="none"/>
             </svg>
           </span>
           <span class="body">
