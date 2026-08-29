@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>kyphan38 - apps</title>
+<title>kyphan38 &mdash; apps</title>
 <meta name="description" content="Six small apps built for one person: knowledge, thinking, time, food, focus, and language.">
 <meta name="color-scheme" content="light">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="branding/hub-icon.svg">
+<meta name="theme-color" content="#fbfbf9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
@@ -13,9 +16,11 @@
   :root {
     --bg: #fbfbf9;
     --fg: #101010;
-    --muted: #74746f;
-    --faint: #b6b6b0;
-    --line: #e6e6e0;
+    --muted: #57574f;   /* body copy      ~7.0:1 */
+    --meta: #6f6f68;    /* domains, chrome ~4.9:1 */
+    --faint: #8d8d85;   /* numbers, icons  ~3.2:1 */
+    --dim: #8f8f87;     /* large display type */
+    --line: #e3e3dd;
     --accent: #101010;
     --mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -29,7 +34,7 @@
     background: var(--bg);
     color: var(--fg);
     font-family: 'Geist', system-ui, -apple-system, sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
     display: flex;
@@ -81,7 +86,7 @@
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--meta);
     opacity: 0;
     animation: fade 0.9s var(--ease) 0.1s forwards;
   }
@@ -125,14 +130,14 @@
 
   .line:nth-child(1) > span { animation-delay: 0.12s; }
   .line:nth-child(2) > span { animation-delay: 0.22s; }
-  .line:nth-child(2) > span { color: var(--faint); }
+  .line:nth-child(2) > span { color: var(--dim); }
 
   @keyframes rise-in { to { transform: translateY(0); } }
 
   .lede {
     margin-top: 20px;
-    max-width: 44ch;
-    font-size: 15px;
+    max-width: 46ch;
+    font-size: 15.5px;
     line-height: 1.65;
     color: var(--muted);
     opacity: 0;
@@ -217,7 +222,7 @@
 
   .glyph svg { display: block; width: 100%; height: 100%; }
 
-  .body { min-width: 0; }
+  .body { min-width: 0; padding-right: 20px; }
 
   .name {
     display: block;
@@ -229,31 +234,31 @@
 
   .desc {
     display: block;
-    margin-top: 5px;
-    font-size: 13.5px;
-    line-height: 1.55;
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.6;
     color: var(--muted);
     transition: transform 0.55s var(--ease), color 0.3s var(--ease);
   }
 
   .meta {
     font-family: var(--mono);
-    font-size: 11px;
-    color: var(--faint);
+    font-size: 11.5px;
+    color: var(--meta);
     white-space: nowrap;
     transition: color 0.3s var(--ease), transform 0.5s var(--ease);
   }
 
   .arrow {
     font-size: 15px;
-    color: var(--faint);
+    color: var(--meta);
     transition: color 0.3s var(--ease), transform 0.5s var(--ease);
   }
 
   /* ---------- hover choreography ---------- */
 
   @media (hover: hover) {
-    .apps:hover .row { opacity: 0.4; }
+    .apps:hover .row { opacity: 0.45; }
     .apps .row:hover { opacity: 1; }
 
     .row:hover::before, .row:focus-visible::before { transform: scaleX(1); }
@@ -274,18 +279,20 @@
 
   /* ---------- glyph animations (play on hover) ---------- */
 
-  svg { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  svg { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
   .g-arca line { transition: transform 0.5s var(--ease); transform-box: fill-box; }
   .row:hover .g-arca line:nth-child(1) { transform: translateX(5px); }
   .row:hover .g-arca line:nth-child(2) { transform: translateX(-3px); }
   .row:hover .g-arca line:nth-child(3) { transform: translateX(4px); }
 
-  .g-cogi circle { transform-box: fill-box; transform-origin: center; }
-  .row:hover .g-cogi circle { animation: node 1.4s var(--ease) infinite; }
-  .row:hover .g-cogi circle:nth-of-type(2) { animation-delay: 0.18s; }
-  .row:hover .g-cogi circle:nth-of-type(3) { animation-delay: 0.36s; }
-  @keyframes node { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.5); } }
+  .g-cogi .spark, .g-cogi .spark-sm { transform-box: fill-box; transform-origin: center; }
+  .row:hover .g-cogi .spark { animation: twinkle 1.7s var(--ease) infinite; }
+  .row:hover .g-cogi .spark-sm { animation: twinkle 1.7s var(--ease) 0.28s infinite; }
+  @keyframes twinkle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50%      { transform: scale(1.2) rotate(18deg); }
+  }
 
   .g-logi line { transform-box: fill-box; transform-origin: center; }
   .row:hover .g-logi line { animation: bar 1.1s ease-in-out infinite; }
@@ -294,11 +301,18 @@
   .row:hover .g-logi line:nth-child(4) { animation-delay: 0.36s; }
   @keyframes bar { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
 
-  .g-mesi .arc { stroke-dasharray: 26; stroke-dashoffset: 26; transition: stroke-dashoffset 0.85s var(--ease); }
-  .row:hover .g-mesi .arc { stroke-dashoffset: 0; }
+  .g-mesi .steam { transform-box: fill-box; transform-origin: bottom center; }
+  .row:hover .g-mesi .steam { animation: steam 1.7s ease-in-out infinite; }
+  .row:hover .g-mesi .steam:nth-of-type(3) { animation-delay: 0.22s; }
+  .row:hover .g-mesi .steam:nth-of-type(4) { animation-delay: 0.44s; }
+  @keyframes steam {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50%      { transform: translateY(-1.6px); opacity: 0.4; }
+  }
 
-  .g-mora .hand { transform-origin: 12px 12px; transition: transform 1.1s var(--ease); }
-  .row:hover .g-mora .hand { transform: rotate(300deg); }
+  .g-mora .hand-h, .g-mora .hand-m { transform-origin: 12px 12px; transition: transform 1.2s var(--ease); }
+  .row:hover .g-mora .hand-h { transform: rotate(150deg); }
+  .row:hover .g-mora .hand-m { transform: rotate(540deg); }
 
   .g-noda path { opacity: 0.85; }
   .row:hover .g-noda path { animation: ripple 1.5s ease-out infinite; }
@@ -318,13 +332,13 @@
     font-family: var(--mono);
     font-size: 11px;
     letter-spacing: 0.05em;
-    color: var(--faint);
+    color: var(--meta);
     opacity: 0;
     animation: fade 0.9s var(--ease) 1.05s forwards;
   }
 
   footer a {
-    color: var(--faint);
+    color: var(--meta);
     text-decoration: none;
     transition: color 0.3s var(--ease);
   }
@@ -348,6 +362,7 @@
     /* no hover on touch: the glyph carries the colour instead of the number */
     .num { display: none; }
     .glyph { color: var(--accent); padding-top: 2px; }
+    .body { padding-right: 8px; }
     .meta { grid-column: 2; grid-row: 2; margin-top: 10px; }
     .arrow { grid-column: 3; grid-row: 1; }
   }
@@ -371,7 +386,7 @@
   <header>
     <div class="top">
       <span class="pulse" aria-hidden="true"></span>
-      <span>kyphan38 · six apps, live</span>
+      <span>kyphan38 &middot; six apps, live</span>
     </div>
 
     <div class="hero">
@@ -380,7 +395,7 @@
         <span class="line"><span>built for one.</span></span>
       </h1>
       <p class="lede">
-        A personal workspace. Each app solves one thing I do every day -
+        A personal workspace. Each app solves one thing I do every day &mdash;
         learning, thinking, time, food, focus, and language.
       </p>
     </div>
@@ -413,10 +428,8 @@
           <span class="num">02</span>
           <span class="glyph" aria-hidden="true">
             <svg class="g-cogi" viewBox="0 0 24 24">
-              <path d="M6.9 15.3 11 8.7M13.1 8.6 17.1 13.4"/>
-              <circle cx="5.6" cy="17.2" r="2"/>
-              <circle cx="12" cy="7" r="2"/>
-              <circle cx="18.4" cy="15" r="2"/>
+              <path class="spark" d="M12 3.4c1.15 5.55 3.9 8.3 9.45 9.45-5.55 1.15-8.3 3.9-9.45 9.45-1.15-5.55-3.9-8.3-9.45-9.45C8.1 11.7 10.85 8.95 12 3.4z" fill="currentColor" stroke="none"/>
+              <circle class="spark-sm" cx="19.4" cy="4.9" r="1.5" fill="currentColor" stroke="none"/>
             </svg>
           </span>
           <span class="body">
@@ -428,7 +441,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#0d9488; --i:2">
+      <li class="item" style="--accent:#d97706; --i:2">
         <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">03</span>
           <span class="glyph" aria-hidden="true">
@@ -448,14 +461,15 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#16a34a; --i:3">
+      <li class="item" style="--accent:#0d9488; --i:3">
         <a class="row" href="https://mesi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">04</span>
           <span class="glyph" aria-hidden="true">
             <svg class="g-mesi" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="8" opacity="0.5"/>
-              <path class="arc" d="M12 4a8 8 0 0 1 6.9 12"/>
-              <circle cx="12" cy="12" r="1.4"/>
+              <path d="M4.5 11.5h15a7.5 7.5 0 0 1-15 0z"/>
+              <path class="steam" d="M9 5.5v2.6"/>
+              <path class="steam" d="M12 4.4v3.7"/>
+              <path class="steam" d="M15 5.5v2.6"/>
             </svg>
           </span>
           <span class="body">
@@ -473,19 +487,20 @@
           <span class="glyph" aria-hidden="true">
             <svg class="g-mora" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="8"/>
-              <path class="hand" d="M12 12V6.6"/>
+              <path class="hand-h" d="M12 12V7.9"/>
+              <path class="hand-m" d="M12 12h3.3"/>
             </svg>
           </span>
           <span class="body">
             <span class="name">Mora</span>
             <span class="desc">A quiet Pomodoro timer for deep work, with calm sound and still backgrounds.</span>
           </span>
-          <span class="meta">desktop · macos, linux</span>
+          <span class="meta">desktop &middot; macos, linux</span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </a>
       </li>
 
-      <li class="item" style="--accent:#db2777; --i:5">
+      <li class="item" style="--accent:#16a34a; --i:5">
         <a class="row" href="https://noda.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">06</span>
           <span class="glyph" aria-hidden="true">
@@ -509,7 +524,7 @@
   </main>
 
   <footer>
-    <span>built for one · 2026</span>
+    <span>built for one &middot; 2026</span>
     <a href="https://github.com/kyphan38" target="_blank" rel="noopener">github &#8599;</a>
   </footer>
 
