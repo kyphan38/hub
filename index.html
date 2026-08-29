@@ -164,11 +164,11 @@
     animation-delay: calc(0.52s + var(--i) * 0.075s);
   }
 
-  /* One line that never lifts off and never turns back: it runs the width of
-     the list, drops to the next divider, runs the other way, and after the last
-     row it climbs the left rail straight back to the start. The path is closed,
-     so the line just keeps going the same way, lap after lap. Corners are square
-     so they sit flush on the straight dividers, and the rails clear the row
+  /* One line that never lifts off and never turns back. It zigzags down the
+     list - across a divider, down a rail, across the next - to the bottom of the
+     last row, then zigzags back up the same way. Every turn is a 90 degree
+     corner, so the line only ever moves forward, lap after lap. Corners are
+     square to sit flush on the straight dividers, and the rails clear the row
      numbers by 14px on each side. */
   .board { position: relative; }
 
@@ -615,10 +615,10 @@
   var raf = null;
   var lit = -1;
 
-  // The track. A closed circuit is what keeps the line going one way forever:
-  // it needs an even number of horizontal runs to come back to where it began,
-  // so the line rides the top divider and the top edge of rows 2..6 - six runs -
-  // then climbs the left rail in one go back to the start.
+  // The track: every divider from the top of the list to the bottom of the last
+  // row, zigzagged on the way down and zigzagged again on the way up. Each span
+  // between two dividers is dropped on one rail and climbed on the other, so no
+  // rail is ever retraced and the two halves close into a single loop.
   function build() {
     var w = svg.clientWidth;
 
@@ -631,14 +631,19 @@
       };
     });
 
-    var ys = bounds.map(function (row) { return row.top; });
+    // top of the list, then the bottom of every row
+    var ys = [bounds[0].top].concat(bounds.map(function (row) { return row.bottom; }));
+    var last = ys.length - 1;
 
     var d = 'M0 ' + ys[0];
-    for (var i = 0; i < ys.length; i++) {
-      d += ' H' + (i % 2 === 0 ? w : 0);          // across
-      if (i < ys.length - 1) d += ' V' + ys[i + 1]; // and down to the next
+    for (var i = 0; i <= last; i++) {              // down
+      d += ' H' + (i % 2 === 0 ? w : 0);
+      if (i < last) d += ' V' + ys[i + 1];
     }
-    d += ' V' + ys[0] + ' Z';                      // straight back up, loop closed
+    for (var j = last - 1; j >= 1; j--) {          // and back up
+      d += ' V' + ys[j] + ' H' + (j % 2 === 0 ? w : 0);
+    }
+    d += ' V' + ys[0] + ' Z';                      // loop closed
 
     path.setAttribute('d', d);
 
