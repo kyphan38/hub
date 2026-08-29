@@ -164,43 +164,38 @@
     animation-delay: calc(0.52s + var(--i) * 0.075s);
   }
 
-  /* a segment of line running once around the row, then on to the next row */
+  /* One line that never lifts off: it runs the width of the list, drops to the
+     next divider, runs back the other way, and reverses at the bottom. Corners
+     are square so they sit flush on the straight dividers. The rails clear the
+     row numbers by 14px on each side. */
+  .board { position: relative; }
+
   .trace {
+    /* an <svg> is a replaced element: left+right will not stretch it, so the
+       box has to be sized outright or it falls back to 300x150 */
     position: absolute;
-    inset: 0;
-    z-index: 2;
-    width: 100%;
+    top: 0;
+    left: -14px;
+    width: calc(100% + 28px);
     height: 100%;
+    z-index: 2;
     pointer-events: none;
     overflow: visible;
   }
 
-  .trace rect {
+  .trace path {
     fill: none;
-    stroke: var(--accent);
+    stroke: var(--faint);
     stroke-width: 1.5;
     stroke-linecap: round;
+    stroke-linejoin: miter;
     opacity: 0;
+    transition: stroke 0.6s linear, opacity 0.8s var(--ease);
   }
 
-  .item.live .trace rect {
-    animation:
-      snake var(--lap, 2.6s) linear,
-      trace-fade var(--lap, 2.6s) ease;
-  }
+  .trace.ready path { opacity: 1; }
 
-  @keyframes snake {
-    from { stroke-dashoffset: 0; }
-    to   { stroke-dashoffset: calc(var(--len, 0px) * -1); }
-  }
-
-  @keyframes trace-fade {
-    0%        { opacity: 0; }
-    12%, 82%  { opacity: 1; }
-    100%      { opacity: 0; }
-  }
-
-  /* the row the segment is on wakes up too, in its own colour */
+  /* the row the line is crossing wakes up, in its own colour */
   .item.live .num,
   .item.live .glyph { color: var(--accent); }
 
@@ -445,10 +440,11 @@
   </header>
 
   <main>
-    <ul class="apps">
+    <div class="board">
+      <svg class="trace" aria-hidden="true"><path/></svg>
+      <ul class="apps">
 
       <li class="item" style="--accent:#2563eb; --i:0">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://arca.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">01</span>
           <span class="glyph" aria-hidden="true">
@@ -468,7 +464,6 @@
       </li>
 
       <li class="item" style="--accent:#475569; --i:1">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://cogi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">02</span>
           <span class="glyph" aria-hidden="true">
@@ -490,7 +485,6 @@
       </li>
 
       <li class="item" style="--accent:#d97706; --i:2">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">03</span>
           <span class="glyph" aria-hidden="true">
@@ -511,7 +505,6 @@
       </li>
 
       <li class="item" style="--accent:#0d9488; --i:3">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://mesi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">04</span>
           <span class="glyph" aria-hidden="true">
@@ -532,7 +525,6 @@
       </li>
 
       <li class="item" style="--accent:#dc2626; --i:4">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://github.com/kyphan38/mora/releases" target="_blank" rel="noopener">
           <span class="num">05</span>
           <span class="glyph" aria-hidden="true">
@@ -552,7 +544,6 @@
       </li>
 
       <li class="item" style="--accent:#16a34a; --i:5">
-        <svg class="trace" aria-hidden="true"><rect rx="8"/></svg>
         <a class="row" href="https://noda.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">06</span>
           <span class="glyph" aria-hidden="true">
@@ -572,7 +563,8 @@
         </a>
       </li>
 
-    </ul>
+      </ul>
+    </div>
   </main>
 
   <footer>
@@ -603,76 +595,119 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reduceMotion.matches) return;
 
-  var items = Array.prototype.slice.call(document.querySelectorAll('.item'));
+  var board = document.querySelector('.board');
+  var svg = document.querySelector('.trace');
+  var path = svg && svg.querySelector('path');
   var list = document.querySelector('.apps');
-  if (!items.length) return;
+  var items = Array.prototype.slice.call(document.querySelectorAll('.item'));
+  if (!board || !path || !items.length) return;
 
-  var LAP = 2600;   // one trip around a row
-  var GAP = 420;    // pause before the next row
-  var at = 0;
-  var timer = null;
-  var paused = false;
+  var SPEED = 320;   // px per second, both ways
+  var SEG = 170;     // how long the moving segment is
 
-  // The dash is a quarter of the outline, so it reads as a segment, not a fill.
-  function measure(item) {
-    var rect = item.querySelector('.trace rect');
-    if (!rect) return;
-    var box = item.getBoundingClientRect();
-    rect.setAttribute('x', 1);
-    rect.setAttribute('y', 1);
-    rect.setAttribute('width', Math.max(0, box.width - 2));
-    rect.setAttribute('height', Math.max(0, box.height - 2));
-    var len = rect.getTotalLength();
-    var seg = len * 0.22;
-    rect.style.strokeDasharray = seg + ' ' + (len - seg);
-    rect.style.setProperty('--len', len + 'px');
-    item.style.setProperty('--lap', LAP + 'ms');
+  var len = 0;       // length of the whole track
+  var dur = 1;       // seconds for one pass, end to end
+  var bounds = [];   // {top, bottom, accent} per row
+  var t = 0;         // 0 = top of the list, 1 = bottom
+  var dir = 1;
+  var last = 0;
+  var raf = null;
+  var lit = -1;
+
+  // The track: along the top divider, down one side, back along the next
+  // divider, and so on - so it never breaks and never repeats a corner.
+  function build() {
+    var w = svg.clientWidth;
+    var ys = [0];
+    bounds = items.map(function (item) {
+      var top = item.offsetTop;
+      var bottom = top + item.offsetHeight;
+      ys.push(bottom);
+      return {
+        top: top,
+        bottom: bottom,
+        accent: item.style.getPropertyValue('--accent').trim(),
+      };
+    });
+
+    var d = 'M0 ' + ys[0];
+    for (var i = 0; i < ys.length; i++) {
+      d += ' H' + (i % 2 === 0 ? w : 0);
+      if (i < ys.length - 1) d += ' V' + ys[i + 1];
+    }
+    path.setAttribute('d', d);
+
+    len = path.getTotalLength();
+    dur = len / SPEED;
+    path.style.strokeDasharray = SEG + ' ' + Math.max(0, len - SEG);
+    svg.classList.add('ready');
   }
 
-  function clear() {
-    items.forEach(function (item) { item.classList.remove('live'); });
+  function rowAt(y) {
+    for (var i = 0; i < bounds.length; i++) {
+      if (y >= bounds[i].top && y < bounds[i].bottom) return i;
+    }
+    return y < 0 ? 0 : bounds.length - 1;
   }
 
-  function step() {
-    if (paused || document.hidden) return;
-    clear();
-    var item = items[at];
-    measure(item);
-    void item.offsetWidth;      // restart the animation from the top
-    item.classList.add('live');
-    at = (at + 1) % items.length;
-    timer = setTimeout(step, LAP + GAP);
+  function light(i) {
+    if (i === lit) return;
+    lit = i;
+    items.forEach(function (item, n) { item.classList.toggle('live', n === i); });
+    path.style.stroke = bounds[i].accent;
+  }
+
+  function frame(now) {
+    if (!last) last = now;
+    var dt = (now - last) / 1000;
+    last = now;
+
+    t += (dir * dt) / dur;
+    if (t >= 1) { t = 1; dir = -1; }        // reached the end - walk back up
+    else if (t <= 0) { t = 0; dir = 1; }
+
+    var travel = Math.max(0, len - SEG);
+    var head = t * travel;
+    path.style.strokeDashoffset = -head;
+
+    var mid = path.getPointAtLength(head + SEG / 2);
+    light(rowAt(mid.y));
+
+    raf = requestAnimationFrame(frame);
   }
 
   function start() {
-    if (timer || paused || document.hidden) return;
-    timer = setTimeout(step, 100);
+    if (raf || document.hidden) return;
+    last = 0;
+    raf = requestAnimationFrame(frame);
   }
 
-  function stop() {
-    clearTimeout(timer);
-    timer = null;
-    clear();
+  function stop(clearRows) {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    if (clearRows) {
+      lit = -1;
+      items.forEach(function (item) { item.classList.remove('live'); });
+    }
   }
 
   // Hovering is the reader's own pass over the list - let it have the stage.
   if (list) {
-    list.addEventListener('pointerenter', function () { paused = true; stop(); });
-    list.addEventListener('pointerleave', function () { paused = false; start(); });
+    list.addEventListener('pointerenter', function () { stop(true); });
+    list.addEventListener('pointerleave', function () { start(); });
   }
 
   // Nothing to look at on a hidden tab; stop burning frames.
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) stop(); else start();
+    if (document.hidden) stop(false); else start();
   });
 
   if (window.ResizeObserver) {
-    var ro = new ResizeObserver(function () {
-      items.forEach(measure);
-    });
-    items.forEach(function (item) { ro.observe(item); });
+    var ro = new ResizeObserver(function () { build(); });
+    ro.observe(board);
   }
 
+  build();
   start();
 })();
 
