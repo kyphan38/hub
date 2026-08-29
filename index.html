@@ -164,10 +164,12 @@
     animation-delay: calc(0.52s + var(--i) * 0.075s);
   }
 
-  /* One line that never lifts off: it runs the width of the list, drops to the
-     next divider, runs back the other way, and reverses at the bottom. Corners
-     are square so they sit flush on the straight dividers. The rails clear the
-     row numbers by 14px on each side. */
+  /* One line that never lifts off and never turns back: it runs the width of
+     the list, drops to the next divider, runs the other way, and after the last
+     row it climbs the left rail straight back to the start. The path is closed,
+     so the line just keeps going the same way, lap after lap. Corners are square
+     so they sit flush on the straight dividers, and the rails clear the row
+     numbers by 14px on each side. */
   .board { position: relative; }
 
   .trace {
@@ -608,37 +610,42 @@
   var len = 0;       // length of the whole track
   var dur = 1;       // seconds for one pass, end to end
   var bounds = [];   // {top, bottom, accent} per row
-  var t = 0;         // 0 = top of the list, 1 = bottom
-  var dir = 1;
+  var t = 0;         // how far round the lap, 0 to 1
   var last = 0;
   var raf = null;
   var lit = -1;
 
-  // The track: along the top divider, down one side, back along the next
-  // divider, and so on - so it never breaks and never repeats a corner.
+  // The track. A closed circuit is what keeps the line going one way forever:
+  // it needs an even number of horizontal runs to come back to where it began,
+  // so the line rides the top divider and the top edge of rows 2..6 - six runs -
+  // then climbs the left rail in one go back to the start.
   function build() {
     var w = svg.clientWidth;
-    var ys = [0];
+
     bounds = items.map(function (item) {
       var top = item.offsetTop;
-      var bottom = top + item.offsetHeight;
-      ys.push(bottom);
       return {
         top: top,
-        bottom: bottom,
+        bottom: top + item.offsetHeight,
         accent: item.style.getPropertyValue('--accent').trim(),
       };
     });
 
+    var ys = bounds.map(function (row) { return row.top; });
+
     var d = 'M0 ' + ys[0];
     for (var i = 0; i < ys.length; i++) {
-      d += ' H' + (i % 2 === 0 ? w : 0);
-      if (i < ys.length - 1) d += ' V' + ys[i + 1];
+      d += ' H' + (i % 2 === 0 ? w : 0);          // across
+      if (i < ys.length - 1) d += ' V' + ys[i + 1]; // and down to the next
     }
+    d += ' V' + ys[0] + ' Z';                      // straight back up, loop closed
+
     path.setAttribute('d', d);
 
     len = path.getTotalLength();
     dur = len / SPEED;
+    // one dash + one gap adds up to exactly one lap, so the pattern meets
+    // itself at the seam with nothing to see
     path.style.strokeDasharray = SEG + ' ' + Math.max(0, len - SEG);
     svg.classList.add('ready');
   }
@@ -662,15 +669,13 @@
     var dt = (now - last) / 1000;
     last = now;
 
-    t += (dir * dt) / dur;
-    if (t >= 1) { t = 1; dir = -1; }        // reached the end - walk back up
-    else if (t <= 0) { t = 0; dir = 1; }
+    t += dt / dur;
+    if (t >= 1) t -= 1;                     // straight into the next lap
 
-    var travel = Math.max(0, len - SEG);
-    var head = t * travel;
+    var head = t * len;
     path.style.strokeDashoffset = -head;
 
-    var mid = path.getPointAtLength(head + SEG / 2);
+    var mid = path.getPointAtLength((head + SEG / 2) % len);
     light(rowAt(mid.y));
 
     raf = requestAnimationFrame(frame);
