@@ -435,7 +435,7 @@
         <span class="line"><span>built for one.</span></span>
       </h1>
       <p class="lede">
-        A personal workspace. Each app solves one thing I do every day -
+        A personal workspace. Each app solves one thing I do every day &mdash;
         learning, thinking, time, food, focus, and language.
       </p>
     </div>
@@ -702,10 +702,24 @@
   }
 
   // Hovering is the reader's own pass over the list - let it have the stage.
-  if (list) {
-    list.addEventListener('pointerenter', function () { stop(true); });
+  // Only where a pointer can actually hover, though: a touch that starts a
+  // scroll fires pointerenter and then usually pointercancel, never
+  // pointerleave, which would leave the line parked for good.
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (list && canHover.matches) {
+    list.addEventListener('pointerenter', function (e) {
+      if (e.pointerType === 'mouse' || e.pointerType === 'pen') stop(true);
+    });
     list.addEventListener('pointerleave', function () { start(); });
   }
+
+  // Safety net for hybrid machines: a finger that pauses the line has to be
+  // able to release it again, whichever event the browser ends the touch with.
+  ['pointerup', 'pointercancel'].forEach(function (name) {
+    document.addEventListener(name, function (e) {
+      if (e.pointerType !== 'mouse') start();
+    }, { passive: true });
+  });
 
   // Nothing to look at on a hidden tab; stop burning frames.
   document.addEventListener('visibilitychange', function () {
