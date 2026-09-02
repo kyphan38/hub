@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kyphan38</title>
-<meta name="description" content="Six small apps built for one person: knowledge, thinking, time, food, focus, and language.">
+<meta name="description" content="Six small apps built for one person: knowledge, thinking, money, time, focus, and language.">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="branding/hub-icon.svg">
@@ -341,13 +341,17 @@
   .item:is(:hover, .live) .g-logi line:nth-child(4) { animation-delay: 0.36s; }
   @keyframes bar { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
 
-  .g-mesi .steam { transform-box: fill-box; transform-origin: bottom center; }
-  .item:is(:hover, .live) .g-mesi .steam { animation: steam 1.7s ease-in-out infinite; }
-  .item:is(:hover, .live) .g-mesi .steam:nth-of-type(3) { animation-delay: 0.22s; }
-  .item:is(:hover, .live) .g-mesi .steam:nth-of-type(4) { animation-delay: 0.44s; }
-  @keyframes steam {
-    0%, 100% { transform: translateY(0); opacity: 1; }
-    50%      { transform: translateY(-1.6px); opacity: 0.4; }
+  .g-fina .pocket { transform-box: fill-box; }
+  .g-fina .clasp { transform-box: fill-box; transform-origin: center; }
+  .item:is(:hover, .live) .g-fina .pocket { animation: tuck 1.9s var(--ease) infinite; }
+  .item:is(:hover, .live) .g-fina .clasp { animation: blip 1.9s ease-in-out infinite; }
+  @keyframes tuck {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-1.4px); }
+  }
+  @keyframes blip {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
   }
 
   .g-mora .hand-h, .g-mora .hand-m { transform-origin: 12px 12px; transition: transform 1.2s var(--ease); }
@@ -436,7 +440,7 @@
       </h1>
       <p class="lede">
         A personal workspace. Each app solves one thing I do every day &mdash;
-        learning, thinking, time, food, focus, and language.
+        learning, thinking, money, time, focus, and language.
       </p>
     </div>
   </header>
@@ -486,9 +490,27 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#172554; --i:2">
-        <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
+      <li class="item" style="--accent:#101014; --i:2">
+        <a class="row" href="https://fina.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">03</span>
+          <span class="glyph" aria-hidden="true">
+            <svg class="g-fina" viewBox="0 0 24 24">
+              <rect x="3.4" y="6.6" width="17.2" height="11.8" rx="2.8"/>
+              <path class="pocket" d="M20.6 11.3h-3.3a2.3 2.3 0 0 0 0 4.6h3.3"/>
+              <circle class="clasp" cx="17.4" cy="13.6" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="body">
+            <span class="name">Fina</span>
+            <span class="desc">Money in, money out, and a budget that survives the month.</span>
+          </span>
+          <span class="meta">fina.kyphan38.com</span>
+          <span class="arrow" aria-hidden="true">&#8594;</span>
+        </a>
+      </li>
+      <li class="item" style="--accent:#172554; --i:3">
+        <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
+          <span class="num">04</span>
           <span class="glyph" aria-hidden="true">
             <svg class="g-logi" viewBox="0 0 24 24">
               <line x1="5" y1="9.5" x2="5" y2="14.5"/>
@@ -502,26 +524,6 @@
             <span class="desc">A voice-first time tracker. Speak your day, let AI turn it into a clean log.</span>
           </span>
           <span class="meta">logi.kyphan38.com</span>
-          <span class="arrow" aria-hidden="true">&#8594;</span>
-        </a>
-      </li>
-
-      <li class="item" style="--accent:#0d9488; --i:3">
-        <a class="row" href="https://mesi.kyphan38.com" target="_blank" rel="noopener">
-          <span class="num">04</span>
-          <span class="glyph" aria-hidden="true">
-            <svg class="g-mesi" viewBox="0 0 24 24">
-              <path d="M4.5 11.5h15a7.5 7.5 0 0 1-15 0z"/>
-              <path class="steam" d="M9 5.5v2.6"/>
-              <path class="steam" d="M12 4.4v3.7"/>
-              <path class="steam" d="M15 5.5v2.6"/>
-            </svg>
-          </span>
-          <span class="body">
-            <span class="name">Mesi</span>
-            <span class="desc">Meal plans, recipes, and nutrition tracking that fit what is already in the fridge.</span>
-          </span>
-          <span class="meta">mesi.kyphan38.com</span>
           <span class="arrow" aria-hidden="true">&#8594;</span>
         </a>
       </li>
