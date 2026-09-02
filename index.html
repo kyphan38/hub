@@ -341,13 +341,13 @@
   .item:is(:hover, .live) .g-logi line:nth-child(4) { animation-delay: 0.36s; }
   @keyframes bar { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
 
-  .g-fina .pocket { transform-box: fill-box; }
-  .g-fina .clasp { transform-box: fill-box; transform-origin: center; }
-  .item:is(:hover, .live) .g-fina .pocket { animation: tuck 1.9s var(--ease) infinite; }
-  .item:is(:hover, .live) .g-fina .clasp { animation: blip 1.9s ease-in-out infinite; }
-  @keyframes tuck {
-    0%, 100% { transform: translateX(0); }
-    50%      { transform: translateX(-1.4px); }
+  .g-fina .card { transform-box: fill-box; transform-origin: center; }
+  .g-fina .chip { transform-box: fill-box; transform-origin: center; }
+  .item:is(:hover, .live) .g-fina .card { animation: tap 1.9s var(--ease) infinite; }
+  .item:is(:hover, .live) .g-fina .chip { animation: blip 1.9s ease-in-out infinite; }
+  @keyframes tap {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-1px); }
   }
   @keyframes blip {
     0%, 100% { opacity: 1; }
@@ -495,9 +495,11 @@
           <span class="num">03</span>
           <span class="glyph" aria-hidden="true">
             <svg class="g-fina" viewBox="0 0 24 24">
-              <rect x="3.4" y="6.6" width="17.2" height="11.8" rx="2.8"/>
-              <path class="pocket" d="M20.6 11.3h-3.3a2.3 2.3 0 0 0 0 4.6h3.3"/>
-              <circle class="clasp" cx="17.4" cy="13.6" r="1" fill="currentColor" stroke="none"/>
+              <g class="card">
+                <rect x="2.8" y="6.4" width="18.4" height="11.2" rx="2.6"/>
+                <path d="M2.8 10h18.4"/>
+                <rect class="chip" x="5.6" y="13" width="6" height="3.2" rx="1.1" fill="currentColor" stroke="none"/>
+              </g>
             </svg>
           </span>
           <span class="body">
