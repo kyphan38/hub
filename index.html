@@ -5,35 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kyphan38</title>
 <meta name="description" content="Seven small apps built for one person: knowledge, thinking, money, writing, time, focus, and language.">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="branding/hub-icon.svg">
-<meta name="theme-color" content="#ffffff">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
 <style>
+  /* Shared gray look of ws/app/DESIGN.md: only black, white and gray, system
+     font, light and dark. hub has no Settings page, so it follows the device. */
   :root {
-    --bg: #ffffff;
-    --fg: #101010;
-    --muted: #555555;   /* body copy      ~7.5:1 */
-    --meta: #707070;    /* domains, chrome ~5.0:1 */
-    --faint: #8f8f8f;   /* numbers, icons  ~3.2:1 */
-    --dim: #919191;     /* large display type */
+    --bg: #fafafa;
+    --fg: #171717;
+    --muted: #555555;   /* body copy      ~7.2:1 */
+    --meta: #707070;    /* domains, chrome ~4.8:1 */
+    --faint: #8a8a8a;   /* numbers, icons  ~3.3:1 */
+    --dim: #8a8a8a;     /* large display type */
     --line: #e5e5e5;
-    --accent: #101010;
-    --mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --select: rgb(23 23 23 / 0.14);
+    --accent: var(--fg);
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111111;
+      --fg: #e8e8e8;
+      --muted: #a3a3a3;
+      --meta: #8a8a8a;
+      --faint: #7a7a7a;
+      --dim: #7a7a7a;
+      --line: #262626;
+      --select: rgb(232 232 232 / 0.18);
+      color-scheme: dark;
+    }
+  }
+
+  ::selection { background: var(--select); color: inherit; }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; background: var(--bg); }
 
   body {
     background: var(--bg);
     color: var(--fg);
-    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
@@ -55,7 +73,7 @@
     pointer-events: none;
     z-index: 0;
     opacity: 0;
-    background: radial-gradient(circle closest-side, var(--glow, #101010), transparent 72%);
+    background: radial-gradient(circle closest-side, var(--glow, var(--fg)), transparent 72%);
     filter: blur(24px);
     transition: opacity 0.55s var(--ease), background 0.45s linear;
     will-change: transform;
@@ -96,14 +114,14 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #16a34a;
+    background: var(--fg);
     animation: pulse 2.4s ease-out infinite;
   }
 
   @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(22,163,74,0.4); }
-    70%  { box-shadow: 0 0 0 8px rgba(22,163,74,0); }
-    100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fg) 40%, transparent); }
+    70%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--fg) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fg) 0%, transparent); }
   }
 
   @keyframes fade { to { opacity: 1; } }
@@ -457,7 +475,7 @@
       <svg class="trace" aria-hidden="true"><path/></svg>
       <ul class="apps">
 
-      <li class="item" style="--accent:#141414; --i:0">
+      <li class="item" style="--i:0">
         <a class="row" href="https://arca.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">01</span>
           <span class="glyph" aria-hidden="true">
@@ -468,7 +486,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Arca</span>
+            <span class="name">arca</span>
             <span class="desc">A personal knowledge base for study notes, tech write-ups, and interview prep.</span>
           </span>
           <span class="meta">arca.kyphan38.com</span>
@@ -476,7 +494,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:1">
+      <li class="item" style="--i:1">
         <a class="row" href="https://cogi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">02</span>
           <span class="glyph" aria-hidden="true">
@@ -489,7 +507,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Cogi</span>
+            <span class="name">cogi</span>
             <span class="desc">An AI coach for thinking. Short drills, real feedback, better mental models.</span>
           </span>
           <span class="meta">cogi.kyphan38.com</span>
@@ -497,7 +515,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:2">
+      <li class="item" style="--i:2">
         <a class="row" href="https://fina.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">03</span>
           <span class="glyph" aria-hidden="true">
@@ -507,7 +525,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Fina</span>
+            <span class="name">fina</span>
             <span class="desc">Money in, money out, and a budget that survives the month.</span>
           </span>
           <span class="meta">fina.kyphan38.com</span>
@@ -515,7 +533,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:3">
+      <li class="item" style="--i:3">
         <a class="row" href="https://hodi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">04</span>
           <span class="glyph" aria-hidden="true">
@@ -525,7 +543,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Hodi</span>
+            <span class="name">hodi</span>
             <span class="desc">A quiet daily journal. Open it and today's page is already there, cursor ready.</span>
           </span>
           <span class="meta">hodi.kyphan38.com</span>
@@ -533,7 +551,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:4">
+      <li class="item" style="--i:4">
         <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">05</span>
           <span class="glyph" aria-hidden="true">
@@ -545,7 +563,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Logi</span>
+            <span class="name">logi</span>
             <span class="desc">A voice-first time tracker. Speak your day, let AI turn it into a clean log.</span>
           </span>
           <span class="meta">logi.kyphan38.com</span>
@@ -553,7 +571,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:5">
+      <li class="item" style="--i:5">
         <a class="row" href="https://github.com/kyphan38/mora/releases" target="_blank" rel="noopener">
           <span class="num">06</span>
           <span class="glyph" aria-hidden="true">
@@ -564,7 +582,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Mora</span>
+            <span class="name">mora</span>
             <span class="desc">A quiet Pomodoro timer for deep work, with calm sound and still backgrounds.</span>
           </span>
           <span class="meta">desktop &middot; macos, linux</span>
@@ -572,7 +590,7 @@
         </a>
       </li>
 
-      <li class="item" style="--accent:#141414; --i:6">
+      <li class="item" style="--i:6">
         <a class="row" href="https://noda.kyphan38.com" target="_blank" rel="noopener">
           <span class="num">07</span>
           <span class="glyph" aria-hidden="true">
@@ -584,7 +602,7 @@
             </svg>
           </span>
           <span class="body">
-            <span class="name">Noda</span>
+            <span class="name">noda</span>
             <span class="desc">Language practice the slow way: dictation, shadowing, and flashcards.</span>
           </span>
           <span class="meta">noda.kyphan38.com</span>
@@ -654,7 +672,7 @@
       return {
         top: top,
         bottom: top + item.offsetHeight,
-        accent: item.style.getPropertyValue('--accent').trim(),
+        accent: item.style.getPropertyValue('--accent').trim() || 'var(--accent)',
       };
     });
 
@@ -785,7 +803,7 @@
   }, { passive: true });
 
   document.querySelectorAll('.item').forEach(function (item) {
-    var accent = item.style.getPropertyValue('--accent').trim();
+    var accent = item.style.getPropertyValue('--accent').trim() || 'var(--accent)';
     item.addEventListener('pointerenter', function () {
       glow.style.setProperty('--glow', accent);
       document.body.classList.add('lit');
