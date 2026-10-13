@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kyphan38</title>
-<meta name="description" content="Eight small apps built for one person: knowledge, thinking, money, writing, time, focus, language, and machine health.">
+<meta name="description" content="Nine small apps built for one person: knowledge, thinking, money, writing, reading, time, focus, language, and machine health.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="branding/hub-icon.svg">
@@ -386,6 +386,14 @@
   /* a line of handwriting is drawn, then the nib waits like a cursor */
   .item:is(:hover, .live) .g-hodi .ink { stroke-dasharray: 1; animation: write 2.2s var(--ease) infinite; }
   .item:is(:hover, .live) .g-hodi .nib { animation: blink 2.2s steps(1) infinite; }
+  /* the last book on the shelf leans over, then stands back up */
+  .g-legi .lean { transform-box: view-box; transform-origin: 16.8px 20.5px; }
+  .item:is(:hover, .live) .g-legi .lean { animation: lean 2s var(--ease) infinite; }
+  @keyframes lean {
+    0%, 100% { transform: rotate(0deg); }
+    45%, 60% { transform: rotate(-17deg); }
+  }
+
   @keyframes write {
     0%        { stroke-dashoffset: 1; }
     55%, 100% { stroke-dashoffset: 0; }
@@ -467,7 +475,7 @@
   <header>
     <div class="top">
       <span class="pulse" aria-hidden="true"></span>
-      <span>kyphan38 &middot; eight apps &middot; <span id="clock">--:--:--</span></span>
+      <span>kyphan38 &middot; nine apps &middot; <span id="clock">--:--:--</span></span>
     </div>
 
     <div class="hero">
@@ -477,7 +485,7 @@
       </h1>
       <p class="lede">
         A personal workspace. Each app solves one thing I do every day:
-        learning, thinking, money, writing, time, focus, language, and machine health.
+        learning, thinking, money, writing, reading, time, focus, language, and machine health.
       </p>
     </div>
   </header>
@@ -616,6 +624,26 @@
           </li>
 
           <li class="item" style="--i:6">
+            <a class="row" href="https://legi.kyphan38.com" target="_blank" rel="noopener">
+              <span class="glyph" aria-hidden="true">
+                <svg class="g-legi" viewBox="0 0 24 24">
+                  <line x1="3" y1="20.5" x2="21" y2="20.5"/>
+                  <line x1="6" y1="20.5" x2="6" y2="8"/>
+                  <line x1="10" y1="20.5" x2="10" y2="5"/>
+                  <line x1="14" y1="20.5" x2="14" y2="9.5"/>
+                  <line class="lean" x1="16.8" y1="20.5" x2="20" y2="10"/>
+                </svg>
+              </span>
+              <span class="body">
+                <span class="name">legi</span>
+                <span class="desc">Quotes from the books you read.</span>
+              </span>
+              <span class="meta">legi.kyphan38.com</span>
+              <span class="arrow" aria-hidden="true">&#8594;</span>
+            </a>
+          </li>
+
+          <li class="item" style="--i:7">
             <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-logi" viewBox="0 0 24 24">
@@ -634,7 +662,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:7">
+          <li class="item" style="--i:8">
             <a class="row" href="https://github.com/kyphan38/moni" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-moni" viewBox="0 0 24 24">
