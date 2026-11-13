@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>kyphan38</title>
-<meta name="description" content="Ten small apps built for one person: knowledge, thinking, money, writing, reading, time, focus, language, machine health, and the AI skills behind them.">
+<meta name="description" content="Eleven small apps built for one person: knowledge, thinking, language, growth, money, writing, reading, time, focus, machine health, and the AI skills behind them.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="branding/hub-icon.svg">
@@ -420,6 +420,16 @@
   .item:is(:hover, .live) .g-noda path:nth-child(3) { animation-delay: 0.4s; }
   @keyframes ripple { 0%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
 
+  /* a route line traces forward, the goal waypoint pulses */
+  .item:is(:hover, .live) .g-navi .route { stroke-dasharray: 1; animation: write 1.8s var(--ease) infinite; }
+  .g-navi .node { transform-box: fill-box; transform-origin: center; transition: transform 0.3s var(--ease); }
+  .item:is(:hover, .live) .g-navi .node:last-of-type { animation: waypoint 1.8s var(--ease) infinite; }
+  @keyframes waypoint {
+    0%, 50%   { transform: scale(1); }
+    65%       { transform: scale(1.4); }
+    80%, 100% { transform: scale(1); }
+  }
+
   /* ---------- footer ---------- */
 
   footer {
@@ -479,7 +489,7 @@
   <header>
     <div class="top">
       <span class="pulse" aria-hidden="true"></span>
-      <span>kyphan38 &middot; ten apps &middot; <span id="clock">--:--:--</span></span>
+      <span>kyphan38 &middot; eleven apps &middot; <span id="clock">--:--:--</span></span>
     </div>
 
     <div class="hero">
@@ -489,7 +499,7 @@
       </h1>
       <p class="lede">
         A personal workspace. Each app solves one thing I do every day:
-        learning, thinking, money, writing, reading, time, focus, language, machine health, and the AI skills behind them.
+        learning, thinking, language, growth, money, writing, reading, time, focus, machine health, and the AI skills behind them.
       </p>
     </div>
   </header>
@@ -559,6 +569,25 @@
             </a>
           </li>
 
+          <li class="item" style="--i:3">
+            <a class="row" href="https://navi.kyphan38.com" target="_blank" rel="noopener">
+              <span class="glyph" aria-hidden="true">
+                <svg class="g-navi" viewBox="0 0 24 24">
+                  <path class="route" pathLength="1" d="M5 18.5L11.5 14.5L18.5 5.5"/>
+                  <circle class="node" cx="5" cy="18.5" r="1.8" fill="currentColor" stroke="none"/>
+                  <circle class="node" cx="11.5" cy="14.5" r="1.8" fill="currentColor" stroke="none"/>
+                  <circle class="node" cx="18.5" cy="5.5" r="1.8" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              <span class="body">
+                <span class="name">navi</span>
+                <span class="desc">Grow one step a day: drills, course plan, and roadmap.</span>
+              </span>
+              <span class="meta">navi.kyphan38.com</span>
+              <span class="arrow" aria-hidden="true">&#8594;</span>
+            </a>
+          </li>
+
         </ul>
       </section>
 
@@ -567,7 +596,7 @@
         <h2 class="label" id="g-log"><span class="num">02</span><span>Log</span></h2>
         <ul class="apps">
 
-          <li class="item" style="--i:3">
+          <li class="item" style="--i:4">
             <a class="row" href="https://fina.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-fina" viewBox="0 0 24 24">
@@ -584,7 +613,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:4">
+          <li class="item" style="--i:5">
             <a class="row" href="https://hodi.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-hodi" viewBox="0 0 24 24">
@@ -601,7 +630,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:5">
+          <li class="item" style="--i:6">
             <a class="row" href="https://legi.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-legi" viewBox="0 0 24 24">
@@ -619,7 +648,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:6">
+          <li class="item" style="--i:7">
             <a class="row" href="https://logi.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-logi" viewBox="0 0 24 24">
@@ -646,7 +675,7 @@
         <h2 class="label" id="g-desk"><span class="num">03</span><span>Desk</span></h2>
         <ul class="apps">
 
-          <li class="item" style="--i:7">
+          <li class="item" style="--i:8">
             <a class="row" href="https://mora.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-mora" viewBox="0 0 24 24">
@@ -664,7 +693,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:8">
+          <li class="item" style="--i:9">
             <a class="row" href="https://github.com/kyphan38/moni" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-moni" viewBox="0 0 24 24">
@@ -680,7 +709,7 @@
             </a>
           </li>
 
-          <li class="item" style="--i:9">
+          <li class="item" style="--i:10">
             <a class="row" href="https://cskills.kyphan38.com" target="_blank" rel="noopener">
               <span class="glyph" aria-hidden="true">
                 <svg class="g-cskills" viewBox="0 0 24 24">
