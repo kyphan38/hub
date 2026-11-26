@@ -99,7 +99,8 @@ Số phím 1-9 nhỏ trên ô (ẩn trên màn hình cảm ứng), `space` cạn
 - Tab title `(2/4) hub`.
 - Dòng `Nov ₫244k · 49% of budget` lấy từ `/api/costs` (đã cache 1 giờ).
 
-### R4: PWA
+### R4: PWA (xong 2026-11-26)
+`/manifest.webmanifest`, icon từ `scripts/make-icons.mjs`, `public/sw.js` cache `hub-v1` (trang + JS/CSS, không cache API). Bản build mới hiện ở lần mở sau.
 - `manifest.json`, icon, service worker cache trang chủ (theo mẫu fina/logi).
 
 ## Rủi ro
