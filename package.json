@@ -1,0 +1,30 @@
+{
+  "name": "hub",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "TZ=Asia/Ho_Chi_Minh node --test test/*.test.ts",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^9.6.1",
+    "firebase": "^12.19.0",
+    "firebase-admin": "^14.5.1",
+    "next": "^16.4.6",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5.9.3"
+  }
+}
