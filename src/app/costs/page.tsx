@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { onAuthStateChanged, signOut, type User } from 'firebase/auth';
 
 import CostsView, { type CostsData } from '@/components/CostsView';
+import Nav from '@/components/Nav';
 import s from '@/components/costs.module.css';
+import shell from '@/components/shell.module.css';
 import { auth, signIn } from '@/lib/firebase';
 
 export default function CostsPage() {
@@ -71,11 +73,10 @@ export default function CostsPage() {
 
   if (!data) {
     return (
-      <main className={s.page}>
-        <h1 className={s.title}>costs</h1>
+      <div className={shell.wrap}>
+        <Nav current="costs" right={error ? <button type="button" onClick={() => void signOut(auth)}>sign out</button> : undefined} />
         <p className={s.empty}>{error ?? 'Loading…'}</p>
-        {error && <button type="button" className={s.note} onClick={() => void signOut(auth)}>sign out</button>}
-      </main>
+      </div>
     );
   }
 

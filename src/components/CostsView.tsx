@@ -1,7 +1,10 @@
 import BarList from './BarList';
 import DailyChart from './DailyChart';
 import MonthsChart from './MonthsChart';
+import Footer from './Footer';
+import Nav from './Nav';
 import s from './costs.module.css';
+import shell from './shell.module.css';
 import {
   dayLabel, formatPct, formatVnd, groupOf, GROUP_LABEL, GROUPS, monthName, shiftMonth, shortVnd, type Summary,
 } from '@/lib/costs/summary';
@@ -23,19 +26,20 @@ export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsD
   const usdOnly = m.apps.length > 0 && m.apps.every((a) => a.vnd === 0);
 
   return (
-    <main className={s.page}>
-      <div className={s.top}>
-        <h1 className={s.title}>costs</h1>
-        <div className={s.meta}>
-          {m.lastDay && <span>billing through {dayLabel(m.lastDay)}</span>}
-          <span>updated {ago(Date.now() - data.fetchedAt)}</span>
-          <button type="button" onClick={onRefresh}>refresh</button>
-          <a href="https://console.cloud.google.com/billing" target="_blank" rel="noopener">open billing</a>
-          <a href="/">hub</a>
-          <button type="button" onClick={onSignOut}>sign out</button>
-        </div>
-      </div>
-
+    <div className={shell.wrap}>
+      <Nav
+        current="costs"
+        right={
+          <>
+            {m.lastDay && <span>billing through {dayLabel(m.lastDay)}</span>}
+            <span>updated {ago(Date.now() - data.fetchedAt)}</span>
+            <button type="button" onClick={onRefresh}>refresh</button>
+            <a href="https://console.cloud.google.com/billing" target="_blank" rel="noopener">open billing</a>
+            <button type="button" onClick={onSignOut}>sign out</button>
+          </>
+        }
+      />
+      <main>
       {!billingReady && (
         <p className={s.empty}>Billing export has no data yet. It shows up a few hours after export is turned on.</p>
       )}
@@ -134,6 +138,8 @@ export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsD
           />
         </>
       )}
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -77,7 +77,8 @@ Hub `/costs` đã thay cho dòng "AI this month" trong Settings.
 - Mỗi app một commit, theo luật của app đó (cogi chỉ commit). Deploy rules + web.
 - Cập nhật Handbook của cogi nếu có nhắc tới dòng này.
 
-### R1: khung mới + nav + costs
+### R1: khung mới + nav + costs (xong 2026-11-26)
+Trang chủ và `/links` thành trang React, bỏ hero cũ. `/index.html`, `/links.html` redirect.
 - Trang chủ thành `src/app/page.tsx` (bỏ rewrite `/` → `index.html`). Giữ nội
   dung, đổi sang 3 nhóm Daily / Learn / Tools và ô mới.
 - Nav chung cho `/`, `/links`, `/costs`. `/links` có thể vẫn là HTML tĩnh, chỉ

@@ -1,0 +1,9 @@
+.main { max-width: 36rem; }
+.h { margin: 36px 0 8px; font-size: 12px; font-weight: 400; color: var(--faint); font-family: var(--mono); }
+.list { list-style: none; margin: 0; padding: 0; }
+.row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.row:hover { color: var(--ink); }
+.row:hover .url { color: var(--muted); }
+.app { display: inline-block; min-width: 3.5rem; font-weight: 500; }
+.url { color: var(--faint); font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+.how { margin: 0; padding-left: 18px; font-size: 14px; color: var(--muted); line-height: 1.7; }

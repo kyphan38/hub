@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from 'next';
+
+import { THEME_SCRIPT } from '@/lib/theme';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'costs - kyphan38',
-  icons: { icon: '/favicon.svg' },
-  robots: { index: false },
+  title: { default: 'kyphan38', template: '%s · kyphan38' },
+  description:
+    'Eleven small apps built for one person: knowledge, thinking, language, growth, money, writing, reading, time, focus, machine health, and the AI skills behind them.',
+  icons: { icon: '/favicon.svg', apple: '/branding/hub-icon.svg' },
 };
 
 export const viewport: Viewport = {
@@ -16,7 +19,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );
