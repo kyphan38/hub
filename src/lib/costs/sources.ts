@@ -18,7 +18,7 @@ function readKey(): Key {
   return JSON.parse(Buffer.from(raw, 'base64').toString('utf8')) as Key;
 }
 
-function adminApp(name: string, projectId: string): App {
+export function adminApp(name: string, projectId: string): App {
   if (getApps().some((a) => a.name === name)) return getApp(name);
   const key = readKey();
   return initializeApp(
