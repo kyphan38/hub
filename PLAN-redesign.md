@@ -87,7 +87,8 @@ Owner chỉnh: ô một dòng (icon, tên, mũi tên), không mô tả, không d
 - Theme `system · light · dark` ở footer, lưu localStorage.
 - Cập nhật `DESIGN.md` (nav hub, motion hub).
 
-### R2: `/api/today` + Daily status
+### R2: `/api/today` + Daily status (xong 2026-11-26)
+Ô Daily: `done`/`today` thay mũi tên. Dòng `2/4 today · N days · next: app`, heatmap 30 ô. Dev preview: `/preview`.
 - Logic thuần `src/lib/today/` (dayKey, streak, heatmap, next daily) có test.
 - `src/lib/today/sources.ts` đọc 4 app như bảng trên. Cache 5 phút.
 - UI: trạng thái từng ô, `2/4 today`, streak, heatmap, `next: hodi`.
