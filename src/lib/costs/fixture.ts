@@ -40,6 +40,7 @@ export function previewData() {
   return {
     summary: summarize({ rows: rows(), usage: USAGE, now, budget: 500000 }),
     billingReady: true,
+    loadedThrough: '2026-11-25',
     failedApps: [],
     fetchedAt: now,
   };

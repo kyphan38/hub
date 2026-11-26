@@ -25,7 +25,9 @@ export async function GET(req: Request) {
       now,
       budget: Number(process.env.COSTS_BUDGET_VND) || 0,
     });
-    const body = { summary, billingReady: billing.ready, failedApps: ai.failed, fetchedAt: now };
+    // The export fills in old days first; until it reaches this month, say how far it got.
+    const loadedThrough = billing.rows.reduce<string | null>((m, r) => (m === null || r.day > m ? r.day : m), null);
+    const body = { summary, billingReady: billing.ready, loadedThrough, failedApps: ai.failed, fetchedAt: now };
     cache = { at: now, body };
     return NextResponse.json(body);
   } catch (err) {

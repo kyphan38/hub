@@ -12,7 +12,8 @@ export default function DailyChart({ days }: { days: DayBar[] }) {
   const max = Math.max(...totals, 1);
   const width = PAD_L + days.length * W;
   const y = (v: number) => (v / max) * H;
-  const ticks = [max / 2, max];
+  // No gridline labels when every day is zero (they would read ₫1).
+  const ticks = Math.max(...totals) > 0 ? [max / 2, max] : [];
   return (
     <svg className={s.chart} viewBox={`0 0 ${width} ${H + 22}`} role="img" aria-label="Cost per day this month">
       {ticks.map((t) => (

@@ -9,7 +9,7 @@ import {
   dayLabel, formatPct, formatVnd, groupOf, GROUP_LABEL, GROUPS, monthName, shiftMonth, shortVnd, type Summary,
 } from '@/lib/costs/summary';
 
-export type CostsData = { summary: Summary; billingReady: boolean; failedApps: string[]; fetchedAt: number };
+export type CostsData = { summary: Summary; billingReady: boolean; loadedThrough?: string | null; failedApps: string[]; fetchedAt: number };
 
 const GROUP_COLOR = { gemini: 'var(--c-gemini)', storage: 'var(--c-storage)', other: 'var(--c-other)' };
 
@@ -21,7 +21,10 @@ function ago(ms: number): string {
 }
 
 export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsData; onRefresh: () => void; onSignOut: () => void }) {
-  const { summary: m, billingReady, failedApps } = data;
+  const { summary: m, failedApps } = data;
+  // Billing counts only once it has reached this month; before that it would show a false ₫0.
+  const billingReady = data.billingReady && m.lastDay !== null;
+  const filling = data.billingReady && m.lastDay === null;
   const prevName = monthName(shiftMonth(m.month, -1));
   const usdOnly = m.apps.length > 0 && m.apps.every((a) => a.vnd === 0);
 
@@ -40,8 +43,14 @@ export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsD
         }
       />
       <main>
-      {!billingReady && (
+      {!data.billingReady && (
         <p className={s.empty}>Billing export has no data yet. It shows up a few hours after export is turned on.</p>
+      )}
+      {filling && (
+        <p className={s.empty}>
+          Billing export is still loading old days
+          {data.loadedThrough ? `, now at ${dayLabel(data.loadedThrough)}` : ''}. This month shows up when it gets here.
+        </p>
       )}
 
       {billingReady && (
