@@ -1,4 +1,6 @@
 import AppTile from '@/components/AppTile';
+import CostLine from '@/components/CostLine';
+import HomeKeys from '@/components/HomeKeys';
 import DailySection from '@/components/DailySection';
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
@@ -28,6 +30,8 @@ export default function Home() {
           ),
         )}
       </main>
+      <CostLine />
+      <HomeKeys />
       <Footer />
     </div>
   );

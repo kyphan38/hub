@@ -93,7 +93,8 @@ Owner chỉnh: ô một dòng (icon, tên, mũi tên), không mô tả, không d
 - `src/lib/today/sources.ts` đọc 4 app như bảng trên. Cache 5 phút.
 - UI: trạng thái từng ô, `2/4 today`, streak, heatmap, `next: hodi`.
 
-### R3: phím tắt + tab title + dòng chi phí
+### R3: phím tắt + tab title + dòng chi phí (xong 2026-11-26)
+Số phím 1-9 nhỏ trên ô (ẩn trên màn hình cảm ứng), `space` cạnh next. Dòng chi phí ẩn tới khi billing có tháng này.
 - `1`-`9` mở app, `Space` mở Daily tiếp theo chưa làm.
 - Tab title `(2/4) hub`.
 - Dòng `Nov ₫244k · 49% of budget` lấy từ `/api/costs` (đã cache 1 giờ).

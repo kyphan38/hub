@@ -8,6 +8,7 @@ import Heat from './Heat';
 import s from './home.module.css';
 import type { AppItem } from '@/lib/apps';
 import { auth } from '@/lib/firebase';
+import { isPlainKey, tabTitle } from '@/lib/keys';
 import type { Daily } from '@/lib/today/summary';
 
 /** Hour in Vietnam time, for the evening reminder. */
@@ -37,6 +38,20 @@ export default function DailySection({ index, title, apps }: { index: number; ti
     };
   }, []);
 
+  // Tab title shows progress; Space opens the next app that is not done.
+  useEffect(() => {
+    if (!daily) return;
+    document.title = tabTitle(daily.done, daily.total);
+    const next = daily.next ? apps.find((a) => a.name === daily.next) : undefined;
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== ' ' || !next || !isPlainKey(e)) return;
+      e.preventDefault();
+      window.open(next.href, '_blank', 'noopener');
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [daily, apps]);
+
   return <DailyView index={index} title={title} apps={apps} daily={daily} now={Date.now()} />;
 }
 
@@ -64,6 +79,7 @@ export function DailyView({ index, title, apps, daily, now }: { index: number; t
               <>
                 {' · '}
                 <a className={s.next} href={nextApp.href} target="_blank" rel="noopener">next: {nextApp.name}</a>
+                <kbd className={s.key}> space</kbd>
               </>
             )}
           </span>

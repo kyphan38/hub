@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 
 import { THEME_SCRIPT } from '@/lib/theme';
 import './globals.css';
@@ -20,10 +21,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      </head>
-      <body>{children}</body>
+      <body>
+        <Script id="theme" strategy="beforeInteractive">{THEME_SCRIPT}</Script>
+        {children}
+      </body>
     </html>
   );
 }
