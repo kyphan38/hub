@@ -79,6 +79,7 @@ Hub `/costs` đã thay cho dòng "AI this month" trong Settings.
 
 ### R1: khung mới + nav + costs (xong 2026-11-26)
 Trang chủ và `/links` thành trang React, bỏ hero cũ. `/index.html`, `/links.html` redirect.
+Owner chỉnh: ô một dòng (icon, tên, mũi tên), không mô tả, không domain, 4 ô một hàng (mobile 2).
 - Trang chủ thành `src/app/page.tsx` (bỏ rewrite `/` → `index.html`). Giữ nội
   dung, đổi sang 3 nhóm Daily / Learn / Tools và ô mới.
 - Nav chung cho `/`, `/links`, `/costs`. `/links` có thể vẫn là HTML tĩnh, chỉ
