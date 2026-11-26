@@ -5,6 +5,7 @@ import {
   browserLocalPersistence,
   browserPopupRedirectResolver,
   getAuth,
+  getRedirectResult,
   GoogleAuthProvider,
   indexedDBLocalPersistence,
   initializeAuth,
@@ -42,9 +43,22 @@ function createAuth(): Auth {
 
 export const auth = createAuth();
 
+/** Added to the Home Screen: a popup there opens apart and never reports back. */
+function isStandalone(): boolean {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (navigator as unknown as { standalone?: boolean }).standalone === true
+  );
+}
+
 export async function signIn(): Promise<void> {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
+  if (isStandalone()) {
+    // Works because authDomain is our own domain (next.config proxies /__/auth).
+    await signInWithRedirect(auth, provider, browserPopupRedirectResolver);
+    return;
+  }
   try {
     await signInWithPopup(auth, provider, browserPopupRedirectResolver);
   } catch (err) {
@@ -56,4 +70,11 @@ export async function signIn(): Promise<void> {
     if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
     throw err;
   }
+}
+
+/** Completes a redirect sign-in when the page loads again; onAuthStateChanged then sees the user. */
+export function finishRedirect(): void {
+  getRedirectResult(auth, browserPopupRedirectResolver).catch(() => {
+    // A failed or missing result leaves the sign-in button as it was.
+  });
 }

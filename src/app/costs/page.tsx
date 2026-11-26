@@ -7,7 +7,7 @@ import CostsView, { type CostsData } from '@/components/CostsView';
 import Nav from '@/components/Nav';
 import s from '@/components/costs.module.css';
 import shell from '@/components/shell.module.css';
-import { auth, signIn } from '@/lib/firebase';
+import { auth, finishRedirect, signIn } from '@/lib/firebase';
 
 export default function CostsPage() {
   const [user, setUser] = useState<User | null | undefined>(undefined);
@@ -15,7 +15,10 @@ export default function CostsPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => onAuthStateChanged(auth, setUser), []);
+  useEffect(() => {
+    finishRedirect();
+    return onAuthStateChanged(auth, setUser);
+  }, []);
 
   const load = useCallback(async (fresh = false) => {
     if (!auth.currentUser) return;
