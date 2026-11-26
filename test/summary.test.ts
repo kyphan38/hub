@@ -7,6 +7,7 @@ import {
   formatPct,
   formatVnd,
   groupOf,
+  modelOf,
   shiftMonth,
   shortVnd,
   summarize,
@@ -122,4 +123,24 @@ test('empty data gives zeros, not errors', () => {
   assert.equal(s.lastDay, null);
   assert.equal(s.forecast, 0);
   assert.deepEqual(s.insights, []);
+});
+
+test('names the Gemini model from the billing SKU', () => {
+  assert.equal(modelOf('Generate content output token count gemini 3.8 flash text'), 'gemini 3.8 flash');
+  assert.equal(modelOf('Generate content input token count Gemini 3.5 Flash Lite audio'), 'gemini 3.5 flash lite');
+  assert.equal(modelOf('Generate content input token count gemini 4 hydrogen'), 'gemini 4 hydrogen');
+  assert.equal(modelOf('Embed content input token count gemini-embedding-2'), 'gemini embedding 2');
+  assert.equal(modelOf('Search grounding requests'), 'search grounding');
+  assert.equal(modelOf('Something else'), 'other');
+});
+
+test('Gemini cost per model, biggest first', () => {
+  const rows = [
+    row('2026-11-10', 'Gemini API', 3000, { sku: 'Generate content output token count gemini 4 argon text' }),
+    row('2026-11-11', 'Gemini API', 5000, { sku: 'Generate content output token count gemini 3.8 flash text' }),
+    row('2026-11-11', 'Gemini API', 1000, { sku: 'Generate content input token count gemini 3.8 flash text' }),
+    row('2026-11-11', 'Cloud Storage', 9000, { sku: 'Standard' }),
+  ];
+  const s = summarize({ rows, usage: [], now: NOW, budget: 0 });
+  assert.deepEqual(s.models.map((m) => [m.name, m.total]), [['gemini 3.8 flash', 6000], ['gemini 4 argon', 3000]]);
 });

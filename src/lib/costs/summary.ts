@@ -36,6 +36,7 @@ export type Summary = {
   daily: DayBar[];
   services: Line[];
   projects: Line[];
+  models: Line[];
   months: { month: string; total: number }[];
   apps: AppLine[];
   aiEstimate: number;
@@ -51,6 +52,14 @@ export function groupOf(service: string): Group {
   if (/gemini|generative language/i.test(service)) return 'gemini';
   if (/cloud storage/i.test(service)) return 'storage';
   return 'other';
+}
+
+/** Gemini model named in a billing SKU, e.g. "Generate content output token count gemini 3.8 flash text" -> "gemini 3.8 flash". */
+export function modelOf(sku: string): string {
+  const t = sku.toLowerCase();
+  if (t.includes('grounding')) return 'search grounding';
+  const m = t.match(/gemini[ -](embedding(?:[ -]\d+)?|\d+(?:\.\d+)?[ -](?:flash[ -]lite|[a-z]+))/);
+  return m ? `gemini ${m[1].replace(/-/g, ' ')}` : 'other';
 }
 
 export function vnDay(now: number): string {
@@ -214,6 +223,8 @@ export function summarize(input: {
 
   const services = lines(cur, prev, (r) => r.service);
   const projects = lines(cur, prev, (r) => r.project);
+  const isGemini = (r: BillRow) => groupOf(r.service) === 'gemini';
+  const models = lines(cur.filter(isGemini), prev.filter(isGemini), (r) => modelOf(r.sku));
 
   const months = [];
   for (let i = 5; i >= 0; i--) {
@@ -265,6 +276,7 @@ export function summarize(input: {
     daily,
     services,
     projects,
+    models,
     months,
     apps,
     aiEstimate,

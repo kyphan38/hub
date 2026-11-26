@@ -136,6 +136,17 @@ export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsD
 
       {billingReady && (
         <>
+          {m.models.length > 0 && (
+            <>
+              <h2 className={s.h}>Gemini by model <span className={s.dim} style={{ fontWeight: 400 }}>all keys</span></h2>
+              <BarList
+                items={m.models.map((x) => ({
+                  name: x.name, value: x.total, label: shortVnd(x.total), side: formatPct(x.changePct), color: 'var(--c-gemini)',
+                }))}
+              />
+            </>
+          )}
+
           <h2 className={s.h}>Last 6 months</h2>
           <MonthsChart months={m.months} />
 
