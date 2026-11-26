@@ -66,7 +66,8 @@ hub   apps · links · costs                         2/4 today · 14 days
 
 ## Các phase
 
-### R0: dọn hiển thị cost ở 7 app
+### R0: dọn hiển thị cost ở 7 app (xong 2026-11-26)
+Đã push 7 app, web deploy (navi bằng `vercel --prod`), rules deploy. Hub vẫn đọc `aiUsage`.
 Hub `/costs` đã thay cho dòng "AI this month" trong Settings.
 - Xóa `AiCostRow` và chỗ dùng nó trong fina, logi, hodi, legi, navi, noda, cogi.
 - Xóa phần chỉ dùng cho hiển thị trong `ai-cost.ts` (`splitMonths`, `monthLabel`,
