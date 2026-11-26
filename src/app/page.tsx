@@ -16,7 +16,7 @@ export default function Home() {
               <span>{String(i + 1).padStart(2, '0')}</span>
               <b>{g.title}</b>
             </h2>
-            <div className={`${home.grid} ${g.apps.length === 3 ? home.three : ''}`}>
+            <div className={home.grid}>
               {g.apps.map((a) => <AppTile key={a.name} app={a} />)}
             </div>
           </section>
