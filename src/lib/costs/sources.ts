@@ -36,7 +36,9 @@ export async function verifyOwner(authHeader: string | null): Promise<boolean> {
     const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!;
     const decoded = await getAuth(adminApp('hub', projectId)).verifyIdToken(token, true);
     return decoded.email?.toLowerCase() === allowed && decoded.email_verified === true;
-  } catch {
+  } catch (err) {
+    // checkRevoked reads the user, so the reader account needs Firebase Auth Viewer on the hub project.
+    console.warn('[costs] token check failed', (err as { code?: string }).code ?? (err instanceof Error ? err.message : err));
     return false;
   }
 }
