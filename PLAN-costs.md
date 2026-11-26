@@ -94,3 +94,34 @@ Trang `/costs` đọc cùng con số budget (env `COSTS_BUDGET_VND`).
 - Vercel usage (Hobby, gần như $0).
 - Search grounding chưa có trong `aiUsage`.
 - Thông báo trên điện thoại.
+
+## Trạng thái (2026-11-26)
+
+Claude đã làm (branch `feat/costs`, chưa merge vào `main`):
+- Project `kyphan38-hub-app` (Firebase + GCP), gắn billing account, web app.
+- Dataset BigQuery `billing_export` (US). Service account `hub-costs`, chỉ đọc:
+  BigQuery trên hub, Datastore Viewer trên 7 app. Đã thử: đọc được `aiUsage` của cả 7 app.
+- Budget: giữ budget "alert" ₫500k có sẵn (50/90/100/150%). `COSTS_BUDGET_VND=500000`.
+- Hub chạy Next.js: `public/index.html`, `public/links.html` giữ nguyên, thêm `/costs`,
+  `/api/costs` (401 nếu không phải owner). 8 unit test pass.
+- Vercel project `hub`, env đủ, deploy ở https://hub-virid-tau.vercel.app.
+  `kyphan38.com` đã gắn vào project nhưng DNS vẫn trỏ Cloudflare Pages.
+- `moni/cleanup/check-app-signin.sh hub` kiểm tra `kyphan38.com`.
+
+Owner làm, theo thứ tự:
+1. Bật billing export: Billing > Billing export > BigQuery export > Standard usage
+   cost > Edit settings > project `kyphan38-hub-app`, dataset `billing_export` > Save.
+2. Firebase console `kyphan38-hub-app` > Authentication > Get started > Google > Enable.
+3. Báo Claude: Claude thêm authorized domains (`kyphan38.com`,
+   `hub-virid-tau.vercel.app`) qua API.
+4. GCP Credentials (`kyphan38-hub-app`) > Web client (auto created) > thêm
+   origin `https://kyphan38.com` và redirect `https://kyphan38.com/__/auth/handler`.
+5. Thử đăng nhập ở https://hub-virid-tau.vercel.app/costs.
+6. Cloudflare: gỡ custom domain `kyphan38.com` khỏi Pages project, đặt DNS
+   `A @ 76.76.21.21`, DNS only (đám mây xám).
+7. Báo Claude: chạy check sign-in, merge `feat/costs` vào `main`, push,
+   nối Vercel với GitHub, thêm `hub` vào danh sách mặc định của script.
+8. Tắt Cloudflare Pages project của hub (để push `main` không build ở đó nữa).
+
+Không merge `feat/costs` vào `main` trước bước 6: Cloudflare Pages build từ
+`main`, mà `index.html` đã chuyển vào `public/`, nên trang hiện tại sẽ hỏng.
