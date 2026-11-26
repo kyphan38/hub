@@ -108,7 +108,7 @@ Claude đã làm (branch `feat/costs`, chưa merge vào `main`):
   `kyphan38.com` đã gắn vào project nhưng DNS vẫn trỏ Cloudflare Pages.
 - `moni/cleanup/check-app-signin.sh hub` kiểm tra `kyphan38.com`.
 
-Owner làm, theo thứ tự (1, 2, 3, 5 xong 2026-11-26; `hub-costs` có thêm Firebase Auth Viewer trên hub):
+Owner làm, theo thứ tự (1-7 xong 2026-11-26: kyphan38.com chạy trên Vercel, `main` đã push; `hub-costs` có thêm Firebase Auth Viewer trên hub):
 1. Bật billing export: Billing > Billing export > BigQuery export > Standard usage
    cost > Edit settings > project `kyphan38-hub-app`, dataset `billing_export` > Save.
 2. Firebase console `kyphan38-hub-app` > Authentication > Get started > Google > Enable.
@@ -122,6 +122,8 @@ Owner làm, theo thứ tự (1, 2, 3, 5 xong 2026-11-26; `hub-costs` có thêm F
 7. Báo Claude: chạy check sign-in, merge `feat/costs` vào `main`, push,
    nối Vercel với GitHub, thêm `hub` vào danh sách mặc định của script.
 8. Tắt Cloudflare Pages project của hub (để push `main` không build ở đó nữa).
+9. GitHub > Settings > Applications > Vercel > Repository access: thêm `hub`.
+   Sau đó `vercel git connect` để push `main` tự deploy. Tới lúc đó deploy bằng `vercel --prod`.
 
 Không merge `feat/costs` vào `main` trước bước 6: Cloudflare Pages build từ
 `main`, mà `index.html` đã chuyển vào `public/`, nên trang hiện tại sẽ hỏng.
