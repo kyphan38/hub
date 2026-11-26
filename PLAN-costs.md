@@ -108,7 +108,7 @@ Claude đã làm (branch `feat/costs`, chưa merge vào `main`):
   `kyphan38.com` đã gắn vào project nhưng DNS vẫn trỏ Cloudflare Pages.
 - `moni/cleanup/check-app-signin.sh hub` kiểm tra `kyphan38.com`.
 
-Owner làm, theo thứ tự:
+Owner làm, theo thứ tự (1, 2, 3, 5 xong 2026-11-26; `hub-costs` có thêm Firebase Auth Viewer trên hub):
 1. Bật billing export: Billing > Billing export > BigQuery export > Standard usage
    cost > Edit settings > project `kyphan38-hub-app`, dataset `billing_export` > Save.
 2. Firebase console `kyphan38-hub-app` > Authentication > Get started > Google > Enable.
