@@ -144,3 +144,22 @@ test('Gemini cost per model, biggest first', () => {
   const s = summarize({ rows, usage: [], now: NOW, budget: 0 });
   assert.deepEqual(s.models.map((m) => [m.name, m.total]), [['gemini 3.8 flash', 6000], ['gemini 4 argon', 3000]]);
 });
+
+test('wallet top-ups are shown apart and left out of every total', () => {
+  const s = summarize({
+    rows: [
+      row('2026-11-01', 'Invoice', 200000, { project: 'no project', sku: 'Billing Adjustment (Standalone)', topup: true }),
+      row('2026-11-08', 'Gemini API', 18000),
+      row('2026-10-01', 'Invoice', 18000, { project: 'no project', sku: 'Tax' }),
+    ],
+    usage: [],
+    now: NOW,
+    budget: 0,
+  });
+  assert.equal(s.topup, 200000);
+  assert.equal(s.total, 18000);
+  assert.deepEqual(s.services.map((l) => l.name), ['Gemini API']);
+  assert.equal(s.daily[0].values.other, 0);
+  assert.equal(s.months.at(-1)!.total, 18000);
+  assert.equal(s.months.at(-2)!.total, 18000);
+});

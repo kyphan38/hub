@@ -112,6 +112,7 @@ export default function CostsView({ data, onRefresh, onSignOut }: { data: CostsD
                 name: x.name, value: x.total, label: shortVnd(x.total), side: formatPct(x.changePct), color: GROUP_COLOR[groupOf(x.name)],
               }))}
             />
+            {m.topup > 0 && <p className={`${s.note} num`}>AI Studio top-up {shortVnd(m.topup)}, not counted</p>}
           </div>
         )}
         <div>

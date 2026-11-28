@@ -61,11 +61,14 @@ export async function readBilling(now: number): Promise<BillResult> {
       service.description AS service,
       IFNULL(project.id, 'no project') AS project,
       sku.description AS sku,
+      -- Money put into the AI Studio prepaid wallet. Gemini usage is billed again as it is spent from it.
+      (service.description = 'Invoice'
+        AND EXISTS(SELECT 1 FROM UNNEST(labels) l WHERE l.key = 'goog-cloud-wallet')) AS topup,
       SUM(cost) + SUM(IFNULL((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0)) AS net,
       AVG(currency_conversion_rate) AS rate
     FROM \`${table}\`
     WHERE usage_start_time >= TIMESTAMP(@from, 'Asia/Ho_Chi_Minh')
-    GROUP BY day, service, project, sku`;
+    GROUP BY day, service, project, sku, topup`;
   try {
     const [rows] = await bq.query({ query, params: { from }, location: 'US' });
     return {
@@ -77,6 +80,7 @@ export async function readBilling(now: number): Promise<BillResult> {
         sku: String(r.sku),
         net: Number(r.net) || 0,
         rate: Number(r.rate) || 0,
+        ...(r.topup === true ? { topup: true } : {}),
       })),
     };
   } catch (err) {

@@ -22,6 +22,7 @@ function rows(): BillRow[] {
       add(day, 'Cloud Storage', 110, 'kyphan38-mora-app', 'Standard Storage Singapore');
     }
   }
+  out.push({ day: '2026-11-01', service: 'Invoice', project: 'no project', sku: 'Billing Adjustment (Standalone)', net: 200000, rate: 26300, topup: true });
   add('2026-11-12', 'Cloud Storage', 9000, 'kyphan38-mora-app', 'Download Worldwide Destinations');
   add('2026-11-13', 'Cloud Storage', 8500, 'kyphan38-mora-app', 'Download Worldwide Destinations');
   for (let d = 1; d <= 31; d++) add(`2026-10-${String(d).padStart(2, '0')}`, d % 2 ? 'Gemini API' : 'Cloud Scheduler', 1400);

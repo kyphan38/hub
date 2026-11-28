@@ -8,6 +8,7 @@ export type BillRow = {
   sku: string;
   net: number;
   rate: number; // VND per USD for that row
+  topup?: boolean; // prepaid wallet top-up: money in, not money spent
 };
 
 /** One aiUsage/{YYYY-MM} doc from an app. */
@@ -27,6 +28,7 @@ export type Summary = {
   lastDay: string | null;
   total: number;
   totalUsd: number | null;
+  topup: number;
   forecast: number;
   prevSame: number;
   changePct: number | null;
@@ -186,8 +188,11 @@ export function summarize(input: {
   now: number;
   budget: number;
 }): Summary {
-  const { rows, usage, now, budget } = input;
+  const { usage, now, budget } = input;
   const month = vnDay(now).slice(0, 7);
+  // Top-ups are left out of every total: the usage paid from them is already in the bill.
+  const rows = input.rows.filter((r) => !r.topup);
+  const topup = input.rows.filter((r) => r.topup && r.day.startsWith(month)).reduce((s, r) => s + r.net, 0);
   const prevMonth = shiftMonth(month, -1);
   const cur = rows.filter((r) => r.day.startsWith(month));
   const lastDay = cur.length ? cur.reduce((m, r) => (r.day > m ? r.day : m), '') : null;
@@ -267,6 +272,7 @@ export function summarize(input: {
     lastDay,
     total,
     totalUsd: rate ? total / rate : null,
+    topup,
     forecast,
     prevSame,
     changePct: changePct(total, prevSame),
